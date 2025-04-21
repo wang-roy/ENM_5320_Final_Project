@@ -42,5 +42,7 @@ class SpectralConvolution(nn.Module):
             raise ValueError(f"Expected input to have {self.dim + 2} dimensions (including batch and channel), but got {len(sizes) + 2}")
 
 
-        x_fft = fft.fft(x.float(), )
+        x_fft = fft.fftn(x.float(), dim = range(-self.dim, 0), norm = "ortho")
+
+        
         return out
