@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from typing import List, Union
+from .spectral_convolution import SpectralConvolution
 
 class FourierBlock(nn.Module):
 
@@ -23,6 +24,7 @@ class FourierBlock(nn.Module):
         self.bias = bias
 
         # Fourier Layer ()
+        self.fourier = SpectralConvolution(in_channels, out_channels, modes)
 
         # MLP Layer
 
