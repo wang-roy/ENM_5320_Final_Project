@@ -3,7 +3,7 @@ import torch.nn as nn
 from typing import List, Union
 
 class FourierBlock(nn.Module):
-
+    
     """
     loosely based on https://github.com/abelsr/Fourier-Neural-Operator/tree/main/FNO/PyTorch
     """
