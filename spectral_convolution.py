@@ -27,5 +27,20 @@ class SpectralConvolution(nn.Module):
         self.rank = rank, 
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        
+        """
+        Forward pass of the spectral convolution layer.
+
+        Args:
+            x (torch.Tensor): Input tensor of shape (batch, in_channels, D1, D2, ..., DN).
+
+        Returns:
+            torch.Tensor: Output tensor of shape (batch, out_channels, D1, D2, ..., DN).
+        """
+        batch_size, _, *sizes = x.shape
+
+        if len(sizes) != self.dim:
+            raise ValueError(f"Expected input to have {self.dim + 2} dimensions (including batch and channel), but got {len(sizes) + 2}")
+
+
+        x_fft = fft.fft(x.float(), )
         return out
