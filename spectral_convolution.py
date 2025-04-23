@@ -5,7 +5,7 @@ from typing import List, Tuple, Optional, Union
 
 class SpectralConvolution(nn.Module):
     """
-    Basic implementation of 1D spectral convolution
+    Basic implementation of spectral convolution
 
     Args
     """
@@ -19,12 +19,22 @@ class SpectralConvolution(nn.Module):
         **kwargs
     ):
 
-        super(). __init__()
+        super(). __init__(
         self.in_channels = in_channels,
         self.out_channels = out_channels,
         self.modes = modes,
-        self.dim = len(self.modes)
-        self.rank = rank, 
+        self.dim = len(self.modes),
+        self.rank = rank,
+        ):
+    
+    # Initialize weights
+
+    weight_shape = (in_channels, out_channels, *self.modes)
+
+    weights = nn.Parameter(
+        nn.init.xavier_uniform_(torch.empty(weight_shape, dtype=torch.float32))
+     )
+
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
@@ -42,7 +52,17 @@ class SpectralConvolution(nn.Module):
             raise ValueError(f"Expected input to have {self.dim + 2} dimensions (including batch and channel), but got {len(sizes) + 2}")
 
 
-        x_fft = fft.fftn(x.float(), dim = range(-self.dim, 0), norm = "ortho")
-
+        x_ft = fft.fft(x.float())
         
+        # 
+
+        out = torch.einsum('bi...,io...->bo...', x_ft, weights)
+
+
+        # initialize output Tensors (fourier space)
+        out_ft = torch.zeros(batch_size, self.out_channels, *sizes, dtype=x_ft_real.dtype, device=x.device)
+       
+
+
+
         return out
