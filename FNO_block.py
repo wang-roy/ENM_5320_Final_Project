@@ -17,6 +17,7 @@ class FourierBlock(nn.Module):
         """
         super().__init__()
         self.in_channels = in_channels
+        
         self.out_channels = out_channels
         self.activation = activation
         self.modes = modes
@@ -25,7 +26,7 @@ class FourierBlock(nn.Module):
         # Fourier Layer 
         self.fourier = SpectralConvolution(in_channels, out_channels, modes)
 
-        # Convolution Layer
+        # Convolution Layer/Local Linear Transform
         self.conv = nn.Conv1d(in_channels, out_channels, 3, padding=1)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
