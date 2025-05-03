@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 from typing import List, Union
-from .spectral_convolution import SpectralConvolution
-from .MLP import MLP
+from spectral_convolution import SpectralConvolution
+
 
 class FourierBlock(nn.Module):
     

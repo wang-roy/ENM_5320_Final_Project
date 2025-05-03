@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
-from .FNO_block import FourierBlock
-from .spectral_convolution import SpectralConvolution
+from FNO_block import FourierBlock
+from spectral_convolution import SpectralConvolution
 import torch.nn.functional as F
 
 class FNO(nn.Module):
