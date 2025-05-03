@@ -4,65 +4,49 @@ import torch.fft as fft
 from typing import List, Tuple, Optional, Union
 
 class SpectralConvolution(nn.Module):
-    """
-    Basic implementation of spectral convolution
-
-    Args
-    """
-
-    def __init__(self, 
-        in_channels: int,
-        out_channels: int,
-        modes: List[int],
-        rank: int = 8,
-        bias: bool = True,
-        **kwargs
-    ):
-
-        super(). __init__(
-        self.in_channels = in_channels,
-        self.out_channels = out_channels,
-        self.modes = modes,
-        self.dim = len(self.modes),
-        self.rank = rank,
-        ):
+    def __init__(self, in_channels: int, out_channels: int, modes: int):
+        super().__init__()
+        self.in_channels = in_channels
+        self.out_channels = out_channels
+        self.modes = modes
+        
+        # Initialize complex weights with Xavier initialization
+        scale = 1 / (in_channels * out_channels)
+        
+        weights_real = torch.empty(in_channels, out_channels, modes, dtype=torch.float32)
+        weights_imag = torch.empty(in_channels, out_channels, modes, dtype=torch.float32)
+        
+        nn.init.normal_(weights_real, 0, scale)
+        nn.init.normal_(weights_imag, 0, scale)
+        
+        self.weights = nn.Parameter(torch.complex(weights_real, weights_imag))
     
-    # Initialize weights
-
-    weight_shape = (in_channels, out_channels, *self.modes)
-
-    weights = nn.Parameter(
-        nn.init.xavier_uniform_(torch.empty(weight_shape, dtype=torch.float32))
-     )
-
-
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
-        Forward pass of the spectral convolution layer.
-
-        Args:
-            x (torch.Tensor): Input tensor of shape (batch, in_channels, D1, D2, ..., DN).
-
-        Returns:
-            torch.Tensor: Output tensor of shape (batch, out_channels, D1, D2, ..., DN).
-        """
-        batch_size, _, *sizes = x.shape
-
-        if len(sizes) != self.dim:
-            raise ValueError(f"Expected input to have {self.dim + 2} dimensions (including batch and channel), but got {len(sizes) + 2}")
-
-
-        x_ft = fft.fft(x.float())
+        Forward pass for 1D spectral convolution.
         
-        # 
-
-        out = torch.einsum('bi...,io...->bo...', x_ft, weights)
-
-
-        # initialize output Tensors (fourier space)
-        out_ft = torch.zeros(batch_size, self.out_channels, *sizes, dtype=x_ft_real.dtype, device=x.device)
-       
-
-
-
-        return out
+        Args:
+            x (torch.Tensor): Input tensor of shape (batch, in_channels, length).
+        
+        Returns:
+            torch.Tensor: Output tensor of shape (batch, out_channels, length).
+        """
+        batch_size, _, length = x.shape
+        
+        # Compute 1D FFT
+        x_ft = torch.fft.fft(x.float(), dim=-1)  # shape: (batch, in_channels, length)
+        
+        # Truncate to the modes we're keeping
+        x_ft_trunc = x_ft[..., :self.modes]  # shape: (batch, in_channels, modes)
+        
+        # Spectral convolution using einsum
+        out_ft = torch.einsum('bix,iox->box', x_ft_trunc, self.weights)
+        
+        # Pad back to original length
+        out_ft_padded = torch.zeros(batch_size, self.out_channels, length, 
+                                   dtype=x_ft.dtype, device=x.device)
+        out_ft_padded[..., :self.modes] = out_ft
+        
+        # Inverse FFT and return real part
+        out = torch.fft.ifft(out_ft_padded, dim=-1)
+        return out.real
