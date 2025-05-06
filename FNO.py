@@ -46,5 +46,5 @@ class FNO(nn.Module):
         
         # project and output
         x = self.projecting(x)
-        x = self.activation(x) # do we need? activation fn passed onto fourier layers already
+        # x = self.activation(x) # do we need? activation fn passed onto fourier layers already
         return x

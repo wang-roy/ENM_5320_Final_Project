@@ -26,7 +26,7 @@ class FourierBlock(nn.Module):
         self.fourier = SpectralConvolution(in_channels, out_channels, modes)
 
         # Convolution Layer/Local Linear Transform
-        self.conv = nn.Conv1d(in_channels, out_channels, 3, padding=1)
+        self.conv = nn.Conv1d(in_channels, out_channels, kernel_size=1)#, padding=1)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
