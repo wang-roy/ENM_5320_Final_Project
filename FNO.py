@@ -11,20 +11,19 @@ class FNO(nn.Module):
         super.__init__()
         self.modes= modes
         self.in_channels = in_channels
-        # self.lift_channels = lift_channels
+        #self.lift_channels = lift_channels
         self.fourier_channels = fourier_channels
-        # self.proj_channels = proj_channels
+        #self.proj_channels = proj_channels
         self.out_channels = out_channels
         self.activation = activation
+        self.num_fourier_layers = num_fourier_layers
         self.padding = 1
         
         
         self.lifting = nn.Linear(self.in_channels, self.fourier_channels)
-        self.num_fourier_layers = num_fourier_layers
-        fourier_blocks = [FourierBlock(modes=modes, in_channels=in_channels,
-                                       out_channels=out_channels, activation=activation) for __ in num_fourier_layers]
+        fourier_blocks = [FourierBlock(modes=modes, in_channels=fourier_channels,
+                                       out_channels=fourier_channels, activation=activation) for __ in num_fourier_layers]
         self.fourier_blocks = nn.ModuleList(fourier_blocks)
-        
         self.projecting = nn.Linear(self.fourier_channels, self.out_channels)
         
     
