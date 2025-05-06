@@ -21,7 +21,6 @@ class FourierBlock(nn.Module):
         self.out_channels = out_channels
         self.activation = activation
         self.modes = modes
-        self.dim = len(self.modes)
 
         # Fourier Layer 
         self.fourier = SpectralConvolution(in_channels, out_channels, modes)
