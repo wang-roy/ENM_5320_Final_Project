@@ -1,0 +1,32 @@
+{
+  "os": "Linux-6.1.123+-x86_64-with-glibc2.35",
+  "python": "CPython 3.11.12",
+  "startedAt": "2025-05-06T21:36:45.777582Z",
+  "program": "train.ipynb",
+  "codePath": "train.ipynb",
+  "git": {
+    "remote": "https://github.com/wang-roy/ENM_5320_Final_Project.git",
+    "commit": "5e2041179ba3e77ec689811f57b104fffcc82e38"
+  },
+  "email": "roytwang1234@gmail.com",
+  "root": "/content/drive/My Drive/ENM_5320_Final_Project",
+  "host": "c19dcd89f55b",
+  "executable": "/usr/bin/python3",
+  "codePathLocal": "train.ipynb",
+  "colab": "https://colab.research.google.com/notebook#fileId=1FyA21lB8YEpvcdpx148BaJTLK1wCMaji",
+  "cpu_count": 1,
+  "cpu_count_logical": 2,
+  "disk": {
+    "/": {
+      "total": "115658190848",
+      "used": "39909752832"
+    }
+  },
+  "memory": {
+    "total": "13608361984"
+  },
+  "cpu": {
+    "count": 1,
+    "countLogical": 2
+  }
+}

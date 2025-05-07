@@ -1,0 +1,6 @@
+  0%|          | 1/5000 [00:05<7:05:45,  5.11s/it]/usr/local/lib/python3.11/dist-packages/wandb/integration/torch/wandb_torch.py:204: UserWarning: Casting complex values to real discards the imaginary part (Triggered internally at /pytorch/aten/src/ATen/native/Copy.cpp:308.)
+Epoch [1/5000], Loss: 0.02297697775065899
+  flat = flat.type(torch.FloatTensor)
+  0%|          | 12/5000 [01:08<7:57:58,  5.75s/it]
+[34m[1mwandb[0m: [33mWARNING[0m Fatal error while uploading data. Some run data will not be synced, but it will still be written to disk. Use `wandb sync` at the end of the run to try uploading.
+Drive already mounted at /content/drive; to attempt to forcibly remount, call drive.mount("/content/drive", force_remount=True).

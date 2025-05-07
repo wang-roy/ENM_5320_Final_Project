@@ -10,7 +10,7 @@ class FourierBlock(nn.Module):
     loosely based on https://github.com/abelsr/Fourier-Neural-Operator/tree/main/FNO/PyTorch
     """
 
-    def __init__(self, modes: Union[list[int], int], in_channels: int, out_channels: int, activation: nn.Module = nn.GELU()) -> None:
+    def __init__(self, modes: Union[list[int], int], in_channels: int, out_channels: int, activation: nn.Module = nn.Tanh()) -> None:
         """
         
         
@@ -26,8 +26,9 @@ class FourierBlock(nn.Module):
         self.fourier = SpectralConvolution(in_channels, out_channels, modes)
 
         # Convolution Layer/Local Linear Transform
-        self.conv = nn.Conv1d(in_channels, out_channels, 3, padding=1)
-
+        self.conv = nn.Conv1d(in_channels, out_channels, kernel_size=1)#, padding=1)
+        torch.nn.init.xaiver_uniform_(self.conv.weight)
+        
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
         """
