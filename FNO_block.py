@@ -27,7 +27,7 @@ class FourierBlock(nn.Module):
 
         # Convolution Layer/Local Linear Transform
         self.conv = nn.Conv1d(in_channels, out_channels, kernel_size=1)#, padding=1)
-        torch.nn.init.xaiver_uniform_(self.conv.weight)
+        torch.nn.init.xavier_uniform_(self.conv.weight)
         
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """

@@ -19,7 +19,7 @@ class FNO(nn.Module):
         
         # initialize lifting layer
         self.lifting = nn.Linear(self.in_channels, self.hidden_channels)
-        torch.nn.init.xaiver_uniform_(self.lifting.weight)
+        torch.nn.init.xavier_uniform_(self.lifting.weight)
         
         # initialize fourier layers
         fourier_blocks = [FourierBlock(modes=modes, in_channels=self.hidden_channels,
@@ -28,7 +28,7 @@ class FNO(nn.Module):
         
         # initialize projection layer
         self.projecting = nn.Linear(self.hidden_channels, self.out_channels)
-        torch.nn.init.xaiver_uniform_(self.projecting.weight)
+        torch.nn.init.xavier_uniform_(self.projecting.weight)
         
     
     def forward(self, x: torch.Tensor) -> torch.Tensor:
