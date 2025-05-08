@@ -36,19 +36,20 @@ class FNO(nn.Module):
         # lift
         x = self.lifting(x)
         
-        # pad for non-periodic domains
-        x = F.pad(x, [0, self.padding]) 
         
         x = x.permute(0, 2, 1)
+        
+        # pad for non-periodic domains
+        x = F.pad(x, [0, self.padding]) 
         
         # fourier layers
         for fourier_block in self.fourier_blocks:
             x = fourier_block(x)
         
-        x = x.permute(0, 2, 1)
-        
         # remove padding
         x = x[...,:-self.padding]
+        
+        x = x.permute(0, 2, 1)
         
         # project and output
         x = self.projecting(x)
