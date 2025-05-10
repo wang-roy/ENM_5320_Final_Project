@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset
-from torch.utils.data import DataLoader
 import torch.optim as optim
 import numpy as np
 import pickle as pkl
